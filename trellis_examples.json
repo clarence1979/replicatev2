@@ -1,0 +1,99 @@
+[
+  {
+    "id": "8h775kppf9rj60ckzmsry8ckj4",
+    "input": {
+      "seed": 0,
+      "images": [
+        "https://replicate.delivery/pbxt/MClj4HeBGlMw8Jwr8nRJgG4gtSMuIzHYZmsV2XKeJkYtqFYg/yoimiya_3.png",
+        "https://replicate.delivery/pbxt/MClj53w5pbLeLnZuBtDdhqIyolFZBXJ30nlM2d3IeCNfbawR/yoimiya_2.png",
+        "https://replicate.delivery/pbxt/MClj4vk3vYcbRp88EPypUzwUnJFScjLLEqTDgVNKiQg2LiRS/yoimiya_1.png"
+      ],
+      "texture_size": 2048,
+      "mesh_simplify": 0.9,
+      "generate_color": true,
+      "generate_model": true,
+      "randomize_seed": true,
+      "generate_normal": false,
+      "ss_sampling_steps": 12,
+      "slat_sampling_steps": 12,
+      "ss_guidance_strength": 7.5,
+      "slat_guidance_strength": 3
+    },
+    "output": {
+      "model_file": "https://replicate.delivery/yhqm/e92dQj5ltczLUiXknNARE0JSUwrZMbdY8LY406ai77gWNMfTA/output.glb",
+      "color_video": "https://replicate.delivery/yhqm/s4zZA2breS25B6sffONCKebGhhIjijj4vMypTIMa8Dt0qh5PB/output_color.mp4",
+      "normal_video": null,
+      "combined_video": null,
+      "no_background_images": [
+        "https://replicate.delivery/yhqm/MfGPrnwFDER0TS2yiblgnCcXpVsQV6nk1ZCW8ukKyFfsaYenA/output_no_background_0.png",
+        "https://replicate.delivery/yhqm/DAH2dLrIdt7KAt5ScEWLF1ewepeVBO7gdie2Peru3KLiVDzfE/output_no_background_1.png",
+        "https://replicate.delivery/yhqm/WcIYW20ZGV4ffEtZLbuCHPYP1gwcY7Ev0fkcvUOOwGJZ1w8nA/output_no_background_2.png"
+      ]
+    },
+    "version": "06f601b67d482565d4724ae3bc29e5e8cbaa6c4594df900da315d6a02f37ce2a"
+  },
+  {
+    "id": "gp300cmz7nrj40cmc0js05ejrc",
+    "input": {
+      "seed": 0,
+      "images": [
+        "https://replicate.delivery/pbxt/MJaYRxQMgIzPsALScNadsZFCXR2h1n97xBzhRinmUQw9aw25/ephemeros_a_dune_sandworm_with_black_background_de398ce7-2276-4634-8f1d-c4ed2423cda4.png"
+      ],
+      "texture_size": 2048,
+      "mesh_simplify": 0.9,
+      "generate_color": true,
+      "generate_model": true,
+      "randomize_seed": true,
+      "generate_normal": false,
+      "save_gaussian_ply": true,
+      "ss_sampling_steps": 38,
+      "slat_sampling_steps": 12,
+      "return_no_background": false,
+      "ss_guidance_strength": 7.5,
+      "slat_guidance_strength": 3
+    },
+    "output": {
+      "model_file": "https://replicate.delivery/yhqm/5xOmxKPXDTpnIdxRRvs91WKWHTYNGmdBjuE7DbBEigZf0WCKA/output.glb",
+      "color_video": "https://replicate.delivery/yhqm/wJejQmfsfyNf3T4soquMhYLR34F07LESybQQsy8iYmy2n2SQB/output_color.mp4",
+      "gaussian_ply": "https://replicate.delivery/yhqm/tjyjYewq6fj2xUkco7MnifmmL2CeHG3Wfl7Zw5vdxwu0PtlgC/output_gaussian.ply",
+      "normal_video": null,
+      "combined_video": null,
+      "no_background_images": null
+    },
+    "version": "4876f2a8da1c544772dffa32e8889da4a1bab3a1f5c1937bfcfccb99ae347251"
+  },
+  {
+    "id": "xg5e45k9znrj40cmem4v7y2t9w",
+    "input": {
+      "seed": 0,
+      "images": [
+        "https://replicate.delivery/pbxt/ML1p0eA4AEhEvXPlIzds5RWD4axHK8Qj5276Q4Gi9aAuqg1G/20250117_144447.jpg",
+        "https://replicate.delivery/pbxt/ML1p0XhuTj7PjRPOIfN3q0ZNurZgN3EgWjuYI5ISHMl7DlmJ/20250117_144443.jpg",
+        "https://replicate.delivery/pbxt/ML1ozyZUROpp5iLoLEI2SWn4YBe5jmJ5DPxrjg9FivKLvKEl/20250117_144437.jpg",
+        "https://replicate.delivery/pbxt/ML1p0TLpeGDAMlEranut1WEJNljGKP94IV0PdtRtnrbpHCeX/20250117_144431.jpg",
+        "https://replicate.delivery/pbxt/ML1p0rXh6U26VEzshLLFZq30UzVk6zsc11AOIfhYoDIbepn1/20250117_144423.jpg"
+      ],
+      "texture_size": 2048,
+      "mesh_simplify": 0.9,
+      "generate_color": true,
+      "generate_model": true,
+      "randomize_seed": true,
+      "generate_normal": false,
+      "save_gaussian_ply": true,
+      "ss_sampling_steps": 38,
+      "slat_sampling_steps": 12,
+      "return_no_background": false,
+      "ss_guidance_strength": 7.5,
+      "slat_guidance_strength": 3
+    },
+    "output": {
+      "model_file": "https://replicate.delivery/yhqm/ZeryUVHg64we6EwKh44TxkO6HVZZWaQveBafideoZLeZR0gBF/output.glb",
+      "color_video": "https://replicate.delivery/yhqm/OMLHE43og7ooOBlpAmkxppfXqgDdgilzbXgnsDPRInwioBDKA/output_color.mp4",
+      "gaussian_ply": "https://replicate.delivery/yhqm/juaXDr5cNTIBNR1jx6A6J4u8pwFeXllFbvojb1ky6w7ioBDKA/output_gaussian.ply",
+      "normal_video": null,
+      "combined_video": null,
+      "no_background_images": null
+    },
+    "version": "4876f2a8da1c544772dffa32e8889da4a1bab3a1f5c1937bfcfccb99ae347251"
+  }
+]

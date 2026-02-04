@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Model Access</title>
+</head>
+<body>
+    <h1>Test Replicate Model Access</h1>
+    <button onclick="testModel()">Test pipeline-examples/video-ads</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function testModel() {
+            const output = document.getElementById('output');
+            output.textContent = 'Testing...';
+
+            try {
+                const supabaseUrl = prompt('Enter VITE_SUPABASE_URL:');
+                const anonKey = prompt('Enter VITE_SUPABASE_ANON_KEY:');
+
+                const proxyUrl = `${supabaseUrl}/functions/v1/replicate-proxy?path=${encodeURIComponent('/models/pipeline-examples/video-ads')}`;
+
+                const response = await fetch(proxyUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${anonKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+
+                if (data.latest_version) {
+                    output.textContent += '\n\n✅ Model exists!\nVersion ID: ' + data.latest_version.id;
+                }
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
