@@ -1,13 +1,32 @@
-import { X, User, Clock, Cpu, Code, Download, AlertCircle, Timer } from 'lucide-react';
+import { useState } from 'react';
+import { X, User, Clock, Cpu, Code, Download, AlertCircle, Timer, Trash2, Loader2 } from 'lucide-react';
 import { StudentGeneration, isGenerationExpired, getTimeUntilExpiry } from '../types/generation';
 import { ModelViewer3D } from './ModelViewer3D';
 
 interface GenerationDetailModalProps {
   generation: StudentGeneration;
   onClose: () => void;
+  isAdmin?: boolean;
+  onDelete?: (id: string) => Promise<void>;
 }
 
-export function GenerationDetailModal({ generation, onClose }: GenerationDetailModalProps) {
+export function GenerationDetailModal({ generation, onClose, isAdmin = false, onDelete }: GenerationDetailModalProps) {
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const handleDelete = async () => {
+    if (!onDelete) return;
+    if (!confirm(`Delete this generation by ${generation.student_name}? This cannot be undone.`)) return;
+
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      await onDelete(generation.id);
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : 'Failed to delete');
+      setDeleting(false);
+    }
+  };
   const isExpired = isGenerationExpired(generation);
   const timeRemaining = getTimeUntilExpiry(generation);
 
@@ -192,21 +211,45 @@ export function GenerationDetailModal({ generation, onClose }: GenerationDetailM
             )}
           </div>
 
-          <div className="mt-6 pt-6 border-t border-gray-200 flex justify-end">
-            {!isExpired ? (
-              <button
-                onClick={handleDownload}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
-              >
-                <Download className="w-5 h-5" />
-                Download File
-              </button>
-            ) : (
-              <div className="flex items-center gap-2 text-gray-500">
-                <AlertCircle className="w-5 h-5" />
-                <span className="text-sm font-medium">Download no longer available</span>
-              </div>
-            )}
+          {deleteError && (
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+              {deleteError}
+            </div>
+          )}
+
+          <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between">
+            <div>
+              {isAdmin && onDelete && (
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+                >
+                  {deleting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="w-4 h-4" />
+                  )}
+                  {deleting ? 'Deleting...' : 'Delete'}
+                </button>
+              )}
+            </div>
+            <div>
+              {!isExpired ? (
+                <button
+                  onClick={handleDownload}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
+                >
+                  <Download className="w-5 h-5" />
+                  Download File
+                </button>
+              ) : (
+                <div className="flex items-center gap-2 text-gray-500">
+                  <AlertCircle className="w-5 h-5" />
+                  <span className="text-sm font-medium">Download no longer available</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -1,19 +1,37 @@
 import { useState, useEffect } from 'react';
-import { X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Search, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import { StudentGeneration } from '../types/generation';
 
 interface ExpandedGalleryModalProps {
   generations: StudentGeneration[];
   onClose: () => void;
   onSelectGeneration: (generation: StudentGeneration) => void;
+  isAdmin?: boolean;
+  onDelete?: (id: string) => Promise<void>;
 }
 
 const ITEMS_PER_PAGE = 24;
 
-export function ExpandedGalleryModal({ generations, onClose, onSelectGeneration }: ExpandedGalleryModalProps) {
+export function ExpandedGalleryModal({ generations, onClose, onSelectGeneration, isAdmin = false, onDelete }: ExpandedGalleryModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [failedThumbnails, setFailedThumbnails] = useState<Set<string>>(new Set());
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const handleDelete = async (e: React.MouseEvent, gen: StudentGeneration) => {
+    e.stopPropagation();
+    if (!onDelete) return;
+    if (!confirm(`Delete this generation by ${gen.student_name}?`)) return;
+
+    setDeletingId(gen.id);
+    try {
+      await onDelete(gen.id);
+    } catch {
+      alert('Failed to delete generation');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const filteredGenerations = generations.filter(gen =>
     gen.student_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -86,7 +104,7 @@ export function ExpandedGalleryModal({ generations, onClose, onSelectGeneration 
                       onSelectGeneration(gen);
                       onClose();
                     }}
-                    className="flex flex-col gap-2 hover:opacity-80 transition-opacity group"
+                    className="relative flex flex-col gap-2 hover:opacity-80 transition-opacity group"
                   >
                     <div className="aspect-square bg-gray-900 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-blue-400 transition-colors relative">
                       {shouldUseThumbnail ? (
@@ -140,6 +158,16 @@ export function ExpandedGalleryModal({ generations, onClose, onSelectGeneration 
                         {new Date(gen.created_at).toLocaleDateString()}
                       </p>
                     </div>
+                    {isAdmin && onDelete && (
+                      <button
+                        onClick={(e) => handleDelete(e, gen)}
+                        disabled={deletingId === gen.id}
+                        className="absolute top-1.5 right-1.5 p-1.5 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                        title="Delete generation"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </button>
                 );
               })}

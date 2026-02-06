@@ -6,9 +6,13 @@ import { GenerationDetailModal } from './GenerationDetailModal';
 import { ExpandedGalleryModal } from './ExpandedGalleryModal';
 import { migrateReplicateDeliveryVideos } from '../utils/migrateGenerations';
 import { useMobileDetection } from '../hooks/useMobileDetection';
-import { cleanupOldStorageFiles } from '../utils/generationStorage';
+import { cleanupOldStorageFiles, deleteGeneration } from '../utils/generationStorage';
 
-export function GenerationsPreview() {
+interface GenerationsPreviewProps {
+  isAdmin?: boolean;
+}
+
+export function GenerationsPreview({ isAdmin = false }: GenerationsPreviewProps) {
   const { isMobile } = useMobileDetection();
   const [generations, setGenerations] = useState<StudentGeneration[]>([]);
   const [selectedGeneration, setSelectedGeneration] = useState<StudentGeneration | null>(null);
@@ -249,6 +253,12 @@ export function GenerationsPreview() {
         <GenerationDetailModal
           generation={selectedGeneration}
           onClose={() => setSelectedGeneration(null)}
+          isAdmin={isAdmin}
+          onDelete={async (id) => {
+            await deleteGeneration(id);
+            setSelectedGeneration(null);
+            loadGenerations(false);
+          }}
         />
       )}
 
@@ -257,6 +267,11 @@ export function GenerationsPreview() {
           generations={generations}
           onClose={() => setShowExpandedGallery(false)}
           onSelectGeneration={setSelectedGeneration}
+          isAdmin={isAdmin}
+          onDelete={async (id) => {
+            await deleteGeneration(id);
+            loadGenerations(false);
+          }}
         />
       )}
     </>

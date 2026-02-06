@@ -276,6 +276,40 @@ export async function getStoredGenerations() {
   }
 }
 
+export async function deleteGeneration(generationId: string): Promise<void> {
+  const { data: gen, error: fetchError } = await supabase
+    .from('student_generations')
+    .select('id, content_url, thumbnail_url')
+    .eq('id', generationId)
+    .maybeSingle();
+
+  if (fetchError) throw new Error('Failed to find generation');
+  if (!gen) throw new Error('Generation not found');
+
+  const filesToDelete: string[] = [];
+
+  if (gen.content_url && gen.content_url.includes('replicate-images/')) {
+    const path = gen.content_url.split('replicate-images/').pop();
+    if (path) filesToDelete.push(path);
+  }
+
+  if (gen.thumbnail_url && gen.thumbnail_url.includes('replicate-images/')) {
+    const path = gen.thumbnail_url.split('replicate-images/').pop();
+    if (path && !filesToDelete.includes(path)) filesToDelete.push(path);
+  }
+
+  if (filesToDelete.length > 0) {
+    await supabase.storage.from('replicate-images').remove(filesToDelete);
+  }
+
+  const { error: deleteError } = await supabase
+    .from('student_generations')
+    .delete()
+    .eq('id', generationId);
+
+  if (deleteError) throw new Error('Failed to delete generation record');
+}
+
 export async function cleanupOldStorageFiles() {
   try {
     const eightDaysAgo = new Date();

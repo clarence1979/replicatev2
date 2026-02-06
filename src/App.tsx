@@ -356,7 +356,7 @@ function App() {
                 />
               </div>
               <div className="space-y-3 sm:space-y-4">
-                <GenerationsPreview />
+                <GenerationsPreview isAdmin={isAdmin} />
                 {model && (
                   <div className="space-y-4 sm:space-y-6">
                     <ModelInfo
