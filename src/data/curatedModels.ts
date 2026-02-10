@@ -1607,9 +1607,9 @@ export const curatedModels: CuratedModel[] = [
     category: 'ads',
     examples: [
       {
-        name: 'Gorilla on Moped',
+        name: 'Gorilla on Moped (with Audio)',
         input: {
-          prompt: 'gorilla riding a moped through busy italian city',
+          prompt: 'gorilla riding a moped through busy italian city, with moped engine revving and city traffic sounds in the background',
           enhance_prompt: true,
         },
         output: 'https://replicate.delivery/xezq/iY9PbAFJN2LJOBx1imI08Bhz4lJX1ZHBf5WakE1JGNtfKHfpA/tmp8ai_03z8.mp4',
@@ -1631,9 +1631,9 @@ export const curatedModels: CuratedModel[] = [
         output: 'https://replicate.delivery/xezq/ecejocRJQkkUGUPfWnMf7AIAIlraKuSCd2bdkoeLdqflj1xPF/tmphuw78wy3.mp4',
       },
       {
-        name: 'Superhero Trail',
+        name: 'Superhero Trail (with Audio)',
         input: {
-          prompt: 'A hyper-speed superhero, resembling The Flash, is sprinting through a dense, dark forest at night. The trees blur into streaks of green and black as he moves. Fiery trails burst behind him with every stride, igniting parts of the underbrush in glowing embers. As he weaves between the trees, the blazing trail he leaves behind slowly forms the words \'VEO 3 FAST\' in glowing, molten fire on the forest floor. The camera zooms up to show the entire text.',
+          prompt: 'A hyper-speed superhero, resembling The Flash, is sprinting through a dense, dark forest at night. The trees blur into streaks of green and black as he moves. Fiery trails burst behind him with every stride, igniting parts of the underbrush in glowing embers. As he weaves between the trees, the blazing trail he leaves behind slowly forms the words \'VEO 3 FAST\' in glowing, molten fire on the forest floor. The camera zooms up to show the entire text. Audio: whooshing wind sounds, crackling fire, and rustling leaves',
           enhance_prompt: true,
         },
         output: 'https://replicate.delivery/xezq/xKos9IcrsrqrId3eA5bVZxD5m5jWRednYoECfsSaqASM9OeTB/tmpqa0xpc63.mp4',

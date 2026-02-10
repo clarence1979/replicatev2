@@ -201,6 +201,12 @@ export const schemaOverrides: ModelOverrides = {
     },
   },
   'google/veo-3-fast': {
+    prompt: {
+      type: 'string',
+      title: 'Prompt',
+      description: '⚠️ IMPORTANT: To generate audio, you must describe the sounds in your prompt. Example: "A person walking on a beach with waves crashing and seagulls calling"',
+      'x-order': 0,
+    },
     enhance_prompt: {
       type: 'boolean',
       default: true,
@@ -230,13 +236,6 @@ export const schemaOverrides: ModelOverrides = {
       title: 'Resolution',
       description: 'Video resolution',
       'x-order': 3,
-    },
-    generate_audio: {
-      type: 'boolean',
-      default: true,
-      title: 'Generate Audio',
-      description: 'Generate audio for the video',
-      'x-order': 4,
     },
   },
   'sisyphos55/adsgenerator': {
