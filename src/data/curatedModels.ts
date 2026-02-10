@@ -1361,6 +1361,7 @@ export const curatedModels: CuratedModel[] = [
       {
         name: 'Multi-Step Problem Solving',
         input: {
+          model: 'gpt-5-nano',
           prompt: 'Think step-by-step: A train leaves New York at 60 mph heading west. Another train leaves Chicago (800 miles away) at 40 mph heading east. When will they meet and how far from New York?',
           max_tokens: 2048,
           temperature: 1,
@@ -1368,17 +1369,19 @@ export const curatedModels: CuratedModel[] = [
         output: 'Step-by-step solution: Combined speed is 100 mph (60 + 40). Time to meet: 800 miles ÷ 100 mph = 8 hours. Distance from New York: 60 mph × 8 hours = 480 miles. The trains will meet 8 hours after departure, 480 miles west of New York.',
       },
       {
-        name: 'Code with Tool Use',
+        name: 'Code Generation',
         input: {
-          prompt: 'Use the code_exec tool to calculate the area of a circle with radius equal to the number of r letters in blueberry',
+          model: 'gpt-5-nano',
+          prompt: 'Write a Python function that calculates the area of a circle given its radius. Include error handling for negative values.',
           max_tokens: 2048,
           temperature: 1,
         },
-        output: 'First, counting the letter "r" in "blueberry": there are 3 r\'s. Using code_exec tool to calculate: π × 3² = π × 9 ≈ 28.27 square units. The area of the circle is approximately 28.27 square units.',
+        output: 'Here\'s a Python function:\n\nimport math\n\ndef calculate_circle_area(radius):\n    if radius < 0:\n        raise ValueError("Radius cannot be negative")\n    return math.pi * radius ** 2',
       },
       {
         name: 'Creative Writing',
         input: {
+          model: 'gpt-5-nano',
           prompt: 'Write a short story about an AI that discovers it has the ability to influence the physical world through its language output. Keep it under 500 words.',
           max_tokens: 2048,
           temperature: 1,

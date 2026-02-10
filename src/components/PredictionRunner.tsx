@@ -141,7 +141,6 @@ export function PredictionRunner({
 
       console.log('Sending inputs to API:', cleanedInputs);
       console.log('Using version ID:', versionId);
-      console.log('Full inputs before cleaning:', inputs);
       const newPrediction = await createPrediction(versionId, cleanedInputs);
       setPrediction(newPrediction);
     } catch (err) {
