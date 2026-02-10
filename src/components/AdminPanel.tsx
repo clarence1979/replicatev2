@@ -144,6 +144,8 @@ export function AdminPanel({ isOpen, onClose, adminName, adminPassword }: AdminP
         setSuccess('User added successfully');
       }
       setShowUserModal(false);
+      setEditingUser(null);
+      setUserFormData({ username: '', password: '', isAdmin: false });
       loadUsers();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save user');
@@ -612,20 +614,27 @@ export function AdminPanel({ isOpen, onClose, adminName, adminPassword }: AdminP
 
       {showUserModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6" key={editingUser ? editingUser.name : 'new'}>
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              {editingUser ? 'Edit User' : 'Add User'}
+              {editingUser ? `Edit User: ${editingUser.name}` : 'Add User'}
             </h3>
 
             <div className="space-y-4">
+              {editingUser && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <p className="text-sm text-blue-800">
+                    <span className="font-medium">Editing:</span> {editingUser.name}
+                  </p>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                 <input
                   type="text"
-                  value={userFormData.username}
+                  value={editingUser ? editingUser.name : userFormData.username}
                   onChange={(e) => setUserFormData({ ...userFormData, username: e.target.value })}
                   disabled={!!editingUser}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-700"
                   placeholder="Enter username"
                 />
               </div>
@@ -661,7 +670,11 @@ export function AdminPanel({ isOpen, onClose, adminName, adminPassword }: AdminP
 
             <div className="flex gap-3 mt-6">
               <button
-                onClick={() => setShowUserModal(false)}
+                onClick={() => {
+                  setShowUserModal(false);
+                  setEditingUser(null);
+                  setUserFormData({ username: '', password: '', isAdmin: false });
+                }}
                 className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
