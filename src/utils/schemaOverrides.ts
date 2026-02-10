@@ -231,6 +231,13 @@ export const schemaOverrides: ModelOverrides = {
       description: 'Video resolution',
       'x-order': 3,
     },
+    generate_audio: {
+      type: 'boolean',
+      default: true,
+      title: 'Generate Audio',
+      description: 'Generate audio for the video',
+      'x-order': 4,
+    },
   },
   'sisyphos55/adsgenerator': {
     model: {
