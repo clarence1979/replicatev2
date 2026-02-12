@@ -235,7 +235,34 @@ function App() {
       <div className={`max-w-6xl mx-auto ${isMobile ? 'px-4 py-4 space-y-4' : 'px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-6'}`}>
         <header className="mb-4 sm:mb-8">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <div className="flex-1" />
+            <div className="flex-1 flex items-center gap-3">
+              <a
+                href="https://digitalvector.com.au"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-transform hover:scale-105 active:scale-95"
+                title="Digital Vector"
+              >
+                <img
+                  src="/digivec_logo.png"
+                  alt="Digital Vector"
+                  className={`${isMobile ? 'h-8' : 'h-10 sm:h-12'} w-auto rounded`}
+                />
+              </a>
+              <a
+                href="https://clarence.guru"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-transform hover:scale-105 active:scale-95"
+                title="Clarence's Solutions"
+              >
+                <img
+                  src="/cla_sol.png"
+                  alt="Clarence's Solutions"
+                  className={`${isMobile ? 'h-8' : 'h-10 sm:h-12'} w-auto rounded`}
+                />
+              </a>
+            </div>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
               <Sparkles className={`${isMobile ? 'w-8 h-8' : 'w-8 h-8 sm:w-10 sm:h-10'} text-blue-600`} />
               <h1 className={`${isMobile ? 'text-xl' : 'text-2xl sm:text-3xl md:text-4xl'} font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-center`}>
