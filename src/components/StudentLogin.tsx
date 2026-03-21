@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, User, Lock, AlertCircle } from 'lucide-react';
-import { supabase } from '../utils/supabase';
+import { externalSupabase } from '../utils/externalSupabase';
 
 interface StudentLoginProps {
   isOpen: boolean;
@@ -31,15 +31,15 @@ export function StudentLogin({ isOpen, onClose, onLoginSuccess }: StudentLoginPr
     const fetchUsernames = async () => {
       try {
         setLoadingUsernames(true);
-        const { data, error } = await supabase
-          .from('login')
-          .select('name')
-          .order('name');
+        const { data, error } = await externalSupabase
+          .from('users_login')
+          .select('username')
+          .order('username');
 
         if (error) {
           console.error('Error fetching usernames:', error);
         } else if (data) {
-          setUsernames(data.map((row) => row.name));
+          setUsernames(data.map((row) => row.username));
         }
       } catch (err) {
         console.error('Error fetching usernames:', err);

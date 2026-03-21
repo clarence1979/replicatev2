@@ -3,6 +3,9 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const OPENAI_API_BASE = "https://api.openai.com/v1";
 
+const EXTERNAL_SUPABASE_URL = 'https://qfitpwdrswvnbmzvkoyd.supabase.co';
+const EXTERNAL_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmaXRwd2Ryc3d2bmJtenZrb3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNTc4NTIsImV4cCI6MjA3NjkzMzg1Mn0.owLaj3VrcyR7_LW9xMwOTTFQupbDKlvAlVwYtbidiNE';
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -18,17 +21,16 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const externalSupabase = createClient(EXTERNAL_SUPABASE_URL, EXTERNAL_SUPABASE_ANON_KEY);
 
-    const { data: secrets, error: secretError } = await supabase
-      .from("api_secrets")
+    const { data: secretData, error: secretError } = await externalSupabase
+      .from("secrets")
       .select("key_value")
-      .eq("key_name", "openai_api")
+      .eq("key_name", "OPENAI_API_KEY")
       .maybeSingle();
 
-    if (secretError || !secrets) {
+    if (secretError || !secretData) {
+      console.error("Failed to fetch OpenAI API key:", secretError);
       return new Response(
         JSON.stringify({ error: "OpenAI API key not configured" }),
         {
@@ -38,7 +40,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const openaiApiKey = secrets.key_value;
+    const openaiApiKey = secretData.key_value;
     const { prompt, modelContext } = await req.json();
 
     if (!prompt) {
