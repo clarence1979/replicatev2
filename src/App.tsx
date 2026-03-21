@@ -22,6 +22,7 @@ import { calculateEstimatedCost } from './utils/costEstimator';
 import { CuratedModel } from './data/curatedModels';
 import { useMobileDetection } from './hooks/useMobileDetection';
 import { initIframeListener, isInIframe } from './utils/iframeApiKey';
+import { attemptAutoLogin } from './utils/auto-login';
 
 const TERMS_ACCEPTED_KEY = 'terms_accepted_v1';
 
@@ -35,6 +36,7 @@ function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [studentName, setStudentName] = useState<string>('');
   const [studentPassword, setStudentPassword] = useState<string>('');
@@ -48,22 +50,39 @@ function App() {
   const [hasVersionError, setHasVersionError] = useState(false);
 
   useEffect(() => {
-    // Initialize iframe listener to receive API key from parent window
-    initIframeListener();
+    async function init() {
+      initIframeListener();
 
-    const accepted = localStorage.getItem(TERMS_ACCEPTED_KEY) === 'true';
-    if (accepted) {
-      setTermsAccepted(true);
-    } else {
-      setShowTermsModal(true);
+      const accepted = localStorage.getItem(TERMS_ACCEPTED_KEY) === 'true';
+      if (accepted) {
+        setTermsAccepted(true);
+      } else {
+        setShowTermsModal(true);
+      }
+
+      if (isInIframe()) {
+        const result = await attemptAutoLogin();
+        if (result.authenticated) {
+          setIsLoggedIn(true);
+          setStudentName(result.username || '');
+          setIsAdmin(result.isAdmin || false);
+          localStorage.setItem('student_name', result.username || '');
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      const savedName = localStorage.getItem('student_name');
+      const savedPassword = localStorage.getItem('student_password');
+
+      if (savedName && savedPassword) {
+        await checkLoginCredentials(savedName, savedPassword);
+      }
+
+      setIsLoading(false);
     }
 
-    const savedName = localStorage.getItem('student_name');
-    const savedPassword = localStorage.getItem('student_password');
-
-    if (savedName && savedPassword) {
-      checkLoginCredentials(savedName, savedPassword);
-    }
+    init();
   }, []);
 
   useEffect(() => {
@@ -179,6 +198,17 @@ function App() {
 
   const inputSchema = model?.latest_version.openapi_schema.components.schemas.Input.properties || {};
   const requiredFields = model?.latest_version.openapi_schema.components.schemas.Input.required || [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-500 text-sm">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (showTermsModal && !termsAccepted) {
     return <TermsAcceptanceModal onAccept={handleAcceptTerms} />;
